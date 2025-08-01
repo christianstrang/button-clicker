@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://8khkebvqavsv"
-path="res://.godot/imported/ButtonClicker.icon.png-e0a941867e43e7a5a6f2b79cb0692aa8.ctex"
+path="res://.godot/imported/ButtonClicker.icon.png-2e0b67e0e8993d18e0349388f0d0690b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://WebBuild/ButtonClicker.icon.png"
-dest_files=["res://.godot/imported/ButtonClicker.icon.png-e0a941867e43e7a5a6f2b79cb0692aa8.ctex"]
+source_file="res://ButtonClickerWeb/ButtonClicker.icon.png"
+dest_files=["res://.godot/imported/ButtonClicker.icon.png-2e0b67e0e8993d18e0349388f0d0690b.ctex"]
 
 [params]
 
