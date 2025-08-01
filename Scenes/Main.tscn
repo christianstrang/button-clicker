@@ -1,0 +1,81 @@
+[gd_scene load_steps=12 format=3 uid="uid://b30hi7wfctvku"]
+
+[ext_resource type="FontFile" uid="uid://drlhlcvwjfxy0" path="res://Assets/Fonts/Fredoka-VariableFont_wdth,wght.ttf" id="1_r150o"]
+[ext_resource type="Script" uid="uid://bc2iucegb51jx" path="res://Scripts/GameManager.gd" id="1_v1gob"]
+[ext_resource type="Texture2D" uid="uid://c7nclbh3pa3k1" path="res://Assets/GFX/Button.png" id="2_idj7w"]
+[ext_resource type="Script" uid="uid://b00ybvyc7e30l" path="res://Scripts/ScoreDisplay.gd" id="3_jw32o"]
+[ext_resource type="Texture2D" uid="uid://btgtjp4t0rdfg" path="res://Assets/GFX/Button Pressed.png" id="3_kln2b"]
+[ext_resource type="Script" uid="uid://cvyb5l7wfivgk" path="res://Scripts/Button.gd" id="6_50glp"]
+[ext_resource type="AudioStream" uid="uid://i7kdjy2bw35r" path="res://Assets/SFX/Click.mp3" id="7_jw32o"]
+[ext_resource type="Texture2D" uid="uid://ckoqi8pib2hk2" path="res://Assets/GFX/particle circle white.png" id="8_50glp"]
+
+[sub_resource type="FontVariation" id="FontVariation_idj7w"]
+base_font = ExtResource("1_r150o")
+variation_opentype = {
+2003072104: 100,
+2003265652: 400
+}
+
+[sub_resource type="Curve" id="Curve_50glp"]
+_data = [Vector2(0, 0.0088985), 0.0, 0.0, 0, 0, Vector2(0.412429, 1), 2.15823, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_50glp"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("1_v1gob")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 0.960784, 0.905882, 1)
+
+[node name="Score" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 213.0
+offset_right = 700.0
+offset_bottom = 359.0
+theme_override_colors/font_color = Color(0.517647, 0.501961, 0.478431, 1)
+theme_override_fonts/font = SubResource("FontVariation_idj7w")
+theme_override_font_sizes/font_size = 120
+text = "0"
+horizontal_alignment = 1
+script = ExtResource("3_jw32o")
+
+[node name="Button" type="TextureButton" parent="."]
+custom_minimum_size = Vector2(400, 408)
+offset_left = 276.0
+offset_top = 883.0
+offset_right = 676.0
+offset_bottom = 1291.0
+scale = Vector2(0.4, 0.4)
+size_flags_horizontal = 4
+texture_normal = ExtResource("2_idj7w")
+texture_pressed = ExtResource("3_kln2b")
+script = ExtResource("6_50glp")
+
+[node name="ClickSound" type="AudioStreamPlayer" parent="Button"]
+stream = ExtResource("7_jw32o")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="Button"]
+position = Vector2(199, 192)
+emitting = false
+amount = 10
+texture = ExtResource("8_50glp")
+lifetime = 0.5
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+direction = Vector2(0, 0)
+spread = 0.0
+gravity = Vector2(0, 0)
+scale_amount_min = 3.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_50glp")
+color_ramp = SubResource("Gradient_50glp")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
