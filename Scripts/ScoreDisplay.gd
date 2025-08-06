@@ -1,9 +1,9 @@
 extends Node
 
-@onready var score: Label = $"."
+@onready var currency: Label = $"."
 
 func _ready():
-	GameManager.score_changed.connect(_on_score_changed)
+	GameManager.currency_changed.connect(_on_currency_changed)
 	
-func _on_score_changed(new_score):
-	self.text = str(new_score)
+func _on_currency_changed(new_currency):
+	self.text = str(new_currency)

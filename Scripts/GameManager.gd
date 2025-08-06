@@ -1,11 +1,12 @@
 extends Node
 
-signal score_changed(new_score)
-var score = 0
+signal currency_changed(new_currency)
+var currency = 0
+var click_power = 1
 
 func _ready():
 	pass
 	
 func increment_score():
-	score += 1
-	emit_signal("score_changed", score)
+	currency += click_power
+	emit_signal("currency_changed", currency)
