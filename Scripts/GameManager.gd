@@ -10,3 +10,10 @@ func _ready():
 func increment_score():
 	currency += click_power
 	emit_signal("currency_changed", currency)
+
+func spend_currency(amount: int) -> bool:
+	if currency >= amount:
+		currency -= amount
+		emit_signal("currency_changed", currency)
+		return true
+	return false
