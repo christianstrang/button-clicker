@@ -6,7 +6,7 @@ var countdown_timer = null
 var first_click_received = false
 
 func _ready():
-	# Set initial text
+	time_remaining = GameState.current_timer_duration
 	text = str(time_remaining)
 	
 	# Create the timer

@@ -64,6 +64,9 @@ func _on_button_pressed():
 	GameManager.currency = 0
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
 
+func get_current_timer_duration() -> int:
+	return current_timer_duration
+	
 func display_upgrades():
 	# clear the container
 	for child in v_box_container.get_children():
@@ -126,15 +129,10 @@ func apply_upgrade_effect(upgrade_data: Dictionary):
 			print("Click power increased to: %d" % GameManager.click_power)
 		
 		"increase_time_value":
-			current_timer_duration += upgrade_data.effect_value
-			print("Timer duration increased to: %ds" % current_timer_duration)
+			GameState.increase_timer_duration(upgrade_data.effect_value)
 		
 		"reduce_cost_progression":
-			cost_reduction_level += 1
-			print("Cost reduction level: %d (reduces multipliers by %.1f)" % [cost_reduction_level, cost_reduction_level * 0.1])
-		
-		_:
-			print("Unknown upgrade effect: %s" % upgrade_data.effect)
+			GameState.increase_cost_reduction()
 
 func get_effective_cost_progression(base_progression: float) -> float:
 	# Apply cost reduction: each level reduces progression by 0.1
