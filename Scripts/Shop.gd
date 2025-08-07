@@ -21,3 +21,9 @@ func populate_upgrades():
 		item.set_upgrade_data(upgrade)
 		#item.connect("purchase_pressed", _on_upgrade_purchased)
 		upgrade_container.add_child(item)
+
+
+func _on_button_pressed() -> void:
+	GameManager.currency = 0
+	# Load the main scene
+	get_tree().change_scene_to_file("res://Scenes/Main.tscn")

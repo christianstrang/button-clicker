@@ -121,3 +121,5 @@ offset_top = 60.0
 offset_right = 691.0
 offset_bottom = 125.0
 text = "One more Round"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
