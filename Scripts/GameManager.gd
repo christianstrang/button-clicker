@@ -1,7 +1,7 @@
 extends Node
 
 signal currency_changed(new_currency)
-var currency = 0
+var currency = 3000
 var click_power = 1
 
 func _ready():

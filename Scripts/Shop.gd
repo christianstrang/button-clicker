@@ -41,20 +41,39 @@ var upgrades = [
 	#}
 ]
 
+@onready var currency: RichTextLabel = $Currency
+@onready var v_box_container: VBoxContainer = $UI/ScrollContainer/VBoxContainer
+
+var upgrade_node = preload("res://Scenes/Upgrade.tscn")
+
 # Game state variables
 var base_timer_duration = 5
 var current_timer_duration = 5
 var cost_reduction_level = 0
 
 func _ready():
-	update_all_upgrade_costs()
+	currency.text = str(GameManager.currency) + "[font_size=42]₡[/font_size]"
+	GameManager.currency_changed.connect(_on_currency_changed)
+	display_upgrades()
+	#update_all_upgrade_costs()
 
-# Add this new function
+func _on_currency_changed(new_currency: int):
+	currency.text = str(new_currency) + "[font_size=42]₡[/font_size]"
+
 func _on_button_pressed():
-	# Reset currency to 0
 	GameManager.currency = 0
-	# Load the main scene
 	get_tree().change_scene_to_file("res://Scenes/Main.tscn")
+
+func display_upgrades():
+	# clear the container
+	for child in v_box_container.get_children():
+		child.queue_free()
+
+	# loops through upgrades and displays them
+	for upgrade in upgrades:
+		var upgrade_instance = upgrade_node.instantiate()
+		upgrade_instance.set_upgrade_data(upgrade, self)  # Pass shop reference
+		v_box_container.add_child(upgrade_instance)
 
 func can_afford_upgrade(upgrade_data: Dictionary) -> bool:
 	return GameManager.currency >= upgrade_data.cost
@@ -71,8 +90,10 @@ func purchase_upgrade(upgrade_data: Dictionary) -> bool:
 		print("Upgrade already maxed: ", upgrade_data.name)
 		return false
 	
-	# Deduct currency
-	GameManager.currency -= upgrade_data.cost
+	var success = GameManager.spend_currency(upgrade_data.cost)
+	if not success:
+		print("Failed to deduct currency")
+		return false
 	
 	# Increment purchase count
 	upgrade_data.purchased_count += 1

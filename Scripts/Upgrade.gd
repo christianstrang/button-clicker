@@ -4,9 +4,11 @@ extends Control
 @export var pressed_texture: Texture
 #@onready var click_sound: AudioStreamPlayer = $ClickSound
 
+var upgrade_data: Dictionary = {}
+var shop_reference: Node = null
+
 func _ready():
 	self.texture = normal_texture
-	pass
 	
 func _on_gui_input(event):
 	if event is InputEventMouseButton:
@@ -17,20 +19,25 @@ func _on_gui_input(event):
 					self.texture = pressed_texture
 			else:
 				self.texture = normal_texture
+				buy_upgrade()
 	
-func set_upgrade_data(upgrade):
-	print(upgrade)
+func set_upgrade_data(upgrade, shop_ref):
+	upgrade_data = upgrade
+	shop_reference = shop_ref
 	
 	var name_label: Label = $MarginContainer/VBoxContainer/Name
 	var cost_label: Label = $MarginContainer/VBoxContainer/Cost
 	
-	# Set the name if you have a label for it
 	name_label.text = upgrade.name
-	cost_label.text = "Cost: " + str(upgrade.cost)
-	
+	cost_label.text = "Cost: " + str(upgrade.cost) + "₡"
+
 func buy_upgrade():
-	GameManager.click_power +1;
-	pass
-	# check if conditions are met
-	# apply upgrade
-	# update upgrade costs
+	if upgrade_data.is_empty() or shop_reference == null:
+		return
+	
+	var success = shop_reference.purchase_upgrade(upgrade_data)
+	
+	if success:
+		var cost_label: Label = $MarginContainer/VBoxContainer/Cost
+		cost_label.text = "Cost: " + str(upgrade_data.cost) + "₡"
+		shop_reference.currency.text = str(GameManager.currency) + "[font_size=42]₡[/font_size]"
